@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet, 
         TouchableOpacity, Switch} from 'react-native';
 
-export default function Lembrete({item, onApagar}){
+export default function Lembrete({item, onApagar, onEditar}){
     const dataFormatada = new Date(item.dataCriacao).toLocaleDateString('pt-BR');
     return(
         <View style={styles.itemContainer}>
@@ -17,7 +17,7 @@ export default function Lembrete({item, onApagar}){
                     thumbColor={item.finalizado ? '#f5dd4b' : '#f4f3f4'}
                     value = {item.finalizado} />                
 
-                <TouchableOpacity style={styles.botaoEditar}>
+                <TouchableOpacity style={styles.botaoEditar} onPress={() => onEditar(item)}>
                     <Text style={styles.textoBotao}>Editar</Text>
                 </TouchableOpacity>
 

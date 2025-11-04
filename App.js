@@ -20,22 +20,36 @@ export default function App() {
       return;
     }
 
-    const novoLembrete = {
-      titulo : titulo,
-      conteudo : conteudo,
-      dataCriacao : Date.now(),
-      finalizado : false
+    if(editando != null){
+      const lembreteEditado = {
+        ...editando,
+        titulo : titulo,
+        conteudo : conteudo
+      }
+
+      await LembreteDAO.atualizar(lembreteEditado.id, lembreteEditado);
+      }else{
+      const novoLembrete = {
+        titulo : titulo,
+        conteudo : conteudo,
+        dataCriacao : Date.now(),
+        finalizado : false
+      }  
+      await LembreteDAO.adicionar(novoLembrete);
     }
-
-    await LembreteDAO.adicionar(novoLembrete);
-
+    setEditando(null);
     setTitulo('');
-    setConteudo('');
-    
+    setConteudo('');    
   }
 
   async function apagarLembrete(id){
     await LembreteDAO.apagar(id);
+  }
+
+  function editarLembrete(lembrete){
+    setTitulo(lembrete.titulo);
+    setConteudo(lembrete.conteudo);
+    setEditando(lembrete);
   }
 
   return (
@@ -55,7 +69,7 @@ export default function App() {
         data={lembretes}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <Lembrete item={item} onApagar={apagarLembrete}/>
+          <Lembrete item={item} onApagar={apagarLembrete} onEditar={editarLembrete}/>
         )}/>
     </SafeAreaView>
   );
