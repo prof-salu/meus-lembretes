@@ -10,5 +10,24 @@ const lembretesCollection = collection(db, 'lembretes');
 
 //Grava os dados na coleçao
 export function adicionar(lembrete){
-    return addDoc(lembretesCollection, {lembrete});
+    return addDoc(lembretesCollection, lembrete);
+}
+
+//Captura os dados no firebase [listener]
+export function ouvirLembretes(callback){
+    return onSnapshot(lembretesCollection, snapshot => {
+        const lembretes = snapshot.docs.map(doc => ({id:doc.id, ...doc.data()}));
+        callback(lembretes);
+    })
+}
+
+//Apagar lembrete
+export function apagar(id){
+    const lembreteDoc = doc(db, 'lembretes', id);
+    return deleteDoc(lembreteDoc);
+}
+
+export function atualizar(id, lembrete){
+    const lembreteDoc = doc(db, 'lembretes', id);
+    return updateDoc(lembreteDoc, lembrete);
 }
