@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, TextInput, 
          FlatList, Button } from 'react-native';
-import { useState } from 'react';  
+import { useState, useEffect } from 'react';  
 import Lembrete from './src/componentes/Lembrete';
 import * as LembreteDAO from './src/dao/LembreteDAO';
 
@@ -10,16 +10,20 @@ export default function App() {
   const [editando, setEditando] = useState(null);
   const [lembretes, setLembretes] = useState([]);
 
+  useEffect(() => {
+    const unsubscribe = LembreteDAO.ouvirLembretes(setLembretes);
+    return() => unsubscribe();
+  }, [])
+
   async function gravarLembrete(){
     if(titulo.trim() === ''|| conteudo.trim() === ''){
       return;
     }
 
     const novoLembrete = {
-      id : Date.now(),
       titulo : titulo,
       conteudo : conteudo,
-      dataCriacao : new Date(Date.now()).toLocaleDateString('pt-BR'),
+      dataCriacao : Date.now(),
       finalizado : false
     }
 
@@ -28,6 +32,10 @@ export default function App() {
     setTitulo('');
     setConteudo('');
     
+  }
+
+  async function apagarLembrete(id){
+    await LembreteDAO.apagar(id);
   }
 
   return (
@@ -47,7 +55,7 @@ export default function App() {
         data={lembretes}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <Lembrete item={item} />
+          <Lembrete item={item} onApagar={apagarLembrete}/>
         )}/>
     </SafeAreaView>
   );
