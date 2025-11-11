@@ -3,14 +3,14 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAM7jXdpSq8tYFb0MHvbVvrrdDbQI-dCPU",
-  authDomain: "meus-lembretes-64b95.firebaseapp.com",
-  projectId: "meus-lembretes-64b95",
-  storageBucket: "meus-lembretes-64b95.firebasestorage.app",
-  messagingSenderId: "275798946159",
-  appId: "1:275798946159:web:d68d80848c288314c7389a",
-  measurementId: "G-KTY8SPH2V2"
-};
+  apiKey: "SUA_API_KEY",
+  authDomain: "SUA_API_KEY",
+  projectId: "SUA_API_KEY",
+  storageBucket: "SUA_API_KEY",
+  messagingSenderId: "SUA_API_KEY",
+  appId: "SUA_API_KEY",
+  measurementId: "SUA_API_KEY"
+}
 
 //Inicializa o firebase
 const app = initializeApp(firebaseConfig);
